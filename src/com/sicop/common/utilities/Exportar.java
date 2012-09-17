@@ -61,11 +61,11 @@ public class Exportar {
     this.eMailAuthentication = eMailAuthentication;
   }
 
-  public void aExcel(String sqlURLConexion, String sentencia, String fileName) throws FileNotFoundException, IOException, SQLException, WriteException, MessagingException, Exception {
-    aExcel(sqlURLConexion, sentencia, fileName, null);
+  public void aExcel(String sqlURLConexion, String sentencia, String fileName, String ip) throws FileNotFoundException, IOException, SQLException, WriteException, MessagingException, Exception {
+    aExcel(sqlURLConexion, sentencia, fileName, null, ip);
   }
 
-  public void aExcel(String sqlURLConexion, String sentencia, String fileName, String eMail) throws FileNotFoundException, IOException, SQLException, WriteException, MessagingException, Exception {
+  public void aExcel(String sqlURLConexion, String sentencia, String fileName, String eMail, String ip) throws FileNotFoundException, IOException, SQLException, WriteException, MessagingException, Exception {
     crearConexion();
     OutputStream archivoSalida = new FileOutputStream(exportPath + "\\" + fileName + ".xls");
     libro = Workbook.createWorkbook(archivoSalida);
@@ -81,7 +81,7 @@ public class Exportar {
 
 
     if (eMail != null) {
-      enviarMail(fileName, eMail);
+      enviarMail(fileName, eMail, ip);
     }
     //if(eMail!=null) enviarMail(exportPath + "\\" + fileName + ".zip", eMail);
     //Borrar archivos
@@ -154,11 +154,11 @@ public class Exportar {
     libro.close();
   }
 
-  private void enviarMail(String fileName, String correo) throws MessagingException {
+  private void enviarMail(String fileName, String correo, String ip) throws MessagingException {
     java.util.Date fecha = new Date();
 
     Properties datos = new Properties();
-    datos.setProperty("mail.smtp.host", "192.168.1.151");
+    datos.setProperty("mail.smtp.host", ip);
     datos.setProperty("mail.smtp.starttls.enable", "" + eMailUseTLS); //si usa TLS o no
     datos.setProperty("mail.smtp.port", "" + eMailPort);
     datos.setProperty("mail.smtp.user", eMailUser);
